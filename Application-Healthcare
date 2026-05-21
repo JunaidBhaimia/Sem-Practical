@@ -1,0 +1,25 @@
+
+import pandas as pd
+from sklearn.model_selection import train_test_split
+from sklearn.tree import DecisionTreeClassifier
+
+# Load dataset
+data = pd.read_csv("Healthcare_diabetes.csv")
+
+# Features and target
+X = data.drop('Outcome', axis=1)
+y = data['Outcome']
+
+# Split dataset
+X_train, X_test, y_train, y_test = train_test_split(
+    X, y, test_size=0.2, random_state=42)
+
+# Train model
+model = DecisionTreeClassifier()
+model.fit(X_train, y_train)
+
+print(data.head())
+print(data.tail())
+
+# Accuracy
+print("\n Accuracy:", model.score(X_test, y_test))
