@@ -1,0 +1,39 @@
+import pandas as pd
+from sklearn.linear_model import LinearRegression
+
+# Load dataset
+data = pd.read_csv("smart_city_traffic_dataset.csv")
+
+# Convert Traffic_Status into numbers
+traffic_map = {
+    'Low': 1,
+    'Medium': 2,
+    'High': 3
+}
+
+data['Traffic_Status'] = data['Traffic_Status'].map(traffic_map)
+
+# Features and target
+X = data[['Vehicle_Count']]
+y = data['Traffic_Status']
+
+# Train model
+model = LinearRegression()
+model.fit(X, y)
+
+# Predict traffic for 100 vehicles
+prediction = model.predict([[100]])
+
+# Convert result back to label
+reverse_map = {
+    1: 'Low',
+    2: 'Medium',
+    3: 'High'
+}
+
+predicted_label = reverse_map[round(prediction[0])]
+
+print(data.head())
+print(data.tail())
+
+print("\n Predicted Traffic:", predicted_label)
