@@ -1,0 +1,34 @@
+# Predictive Maintenance
+
+import pandas as pd
+from sklearn.ensemble import RandomForestClassifier
+from sklearn.model_selection import train_test_split
+
+# Load dataset
+data = pd.read_csv("Industrial _Automation_predictive_maintenance.csv")
+
+# Show columns
+print(data.columns)
+
+# Remove text columns
+data = data.drop(['Product ID', 'Type', 'Failure Type'], axis=1)
+
+# Features and target
+X = data.drop('Target', axis=1)
+y = data['Target']
+
+# Split dataset
+X_train, X_test, y_train, y_test = train_test_split(
+    X, y, test_size=0.2, random_state=42
+)
+
+# Train model
+model = RandomForestClassifier()
+
+model.fit(X_train, y_train)
+
+print(data.head())
+print(data.tail())
+
+# Accuracy
+print("\n Accuracy:", model.score(X_test, y_test))
