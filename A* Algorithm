@@ -1,0 +1,42 @@
+# A* Algorithm
+from queue import PriorityQueue
+
+graph = {
+    'A': {'B': 1, 'C': 3},
+    'B': {'D': 3, 'E': 1},
+    'C': {'F': 5},
+    'D': {},
+    'E': {'F': 1},
+    'F': {}
+}
+
+heuristic = {
+    'A': 6,
+    'B': 4,
+    'C': 4,
+    'D': 2,
+    'E': 1,
+    'F': 0
+}
+
+def a_star(start, goal):
+    pq = PriorityQueue()
+    pq.put((0, start, [start]))
+
+    while not pq.empty():
+        cost, node, path = pq.get()
+
+        print("Visiting:", node, " Path:", path)
+
+        if node == goal:
+            print("\nGoal reached!")
+            print("Final Path:", " -> ".join(path))
+            return
+
+        for n in graph[node]:
+            new_cost = cost + graph[node][n]
+            priority = new_cost + heuristic[n]
+
+            pq.put((priority, n, path + [n]))
+
+a_star('A', 'F')
